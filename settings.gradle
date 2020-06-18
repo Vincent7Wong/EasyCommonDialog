@@ -1,0 +1,3 @@
+include ':dialogLib'
+include ':app'
+rootProject.name = "EasyCommonDialog"

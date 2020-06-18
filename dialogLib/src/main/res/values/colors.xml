@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="translucent">#0000</color>
+    <!--通用颜色-->
+    <color name="line_color">#E6E6E6</color>
+    <!--通用弹窗文字颜色-->
+    <color name="commonDialogColor">#333333</color>
+    <!--通用弹窗文字取消颜色-->
+    <color name="commonDialogCancelColor">#A8A7AE</color>
+</resources>
