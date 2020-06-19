@@ -3,10 +3,10 @@ package com.next.dialoglib;
 interface DialogInterface {
 
     interface OnRightListener {
-        boolean onRightEvent(EasyCommonDialog dialog);
+        boolean onRightEvent(EasyDialog dialog);
     }
 
     interface OnLeftListener{
-        boolean onLeftEvent(EasyCommonDialog dialog);
+        boolean onLeftEvent(EasyDialog dialog);
     }
 }
