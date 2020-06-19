@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.text.TextPaint;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -62,8 +63,8 @@ public class EasyDialog extends Dialog {
         //弹窗圆角
         private float mDialogRadius = 8f;
 
-
-        private boolean mCancelable = false;
+        //点击外部是否消失
+        private boolean mOutsideCancelable = false;
         //分割线的宽度
         private float mLineHeight = 0.5f;
         //按钮高度
@@ -117,6 +118,8 @@ public class EasyDialog extends Dialog {
         private View view_line02;
         //字体单位DP、SP
         private int mTextSizeType = 1;
+        //系统返回是否消失
+        private boolean mBackDismiss = true;
 
         @IntDef({
                 TextSizeType.TYPE_DP,
@@ -152,16 +155,16 @@ public class EasyDialog extends Dialog {
             DialogUtil.setRoundRectBg(mContext, ll_dialog, mDialogRadius, mDialogBgColor);
             if (mDialogWidth > 0) {
                 LinearLayout.LayoutParams dialogParams = (LinearLayout.LayoutParams) ll_dialog.getLayoutParams();
-                dialogParams.width = DialogUtil.dip2px(mContext,mDialogWidth);
+                dialogParams.width = DialogUtil.dip2px(mContext, mDialogWidth);
                 ll_dialog.setLayoutParams(dialogParams);
             }
-            if(mDialogMinHeight>0){
-                ll_dialog.setMinimumHeight(DialogUtil.dip2px(mContext,mDialogMinHeight));
+            if (mDialogMinHeight > 0) {
+                ll_dialog.setMinimumHeight(DialogUtil.dip2px(mContext, mDialogMinHeight));
             }
 
             if (mDialogHeight > 0) {
                 LinearLayout.LayoutParams dialogParams = (LinearLayout.LayoutParams) ll_dialog.getLayoutParams();
-                dialogParams.height = DialogUtil.dip2px(mContext,mDialogHeight);
+                dialogParams.height = DialogUtil.dip2px(mContext, mDialogHeight);
                 ll_dialog.setLayoutParams(dialogParams);
             }
 
@@ -254,14 +257,25 @@ public class EasyDialog extends Dialog {
             view_line02.setBackgroundColor(mLineColor);
 
 
-            dialog.setContentView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT));
+            dialog.setContentView(view, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
             dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
-            dialog.setCanceledOnTouchOutside(mCancelable);
+            dialog.setCanceledOnTouchOutside(mOutsideCancelable);
+            dialog.setOnKeyListener(new android.content.DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(android.content.DialogInterface dialog, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        if (!mBackDismiss) {
+                           return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+
             return dialog;
         }
-
 
 
         public Builder(Context mContext) {
@@ -410,8 +424,8 @@ public class EasyDialog extends Dialog {
             return this;
         }
 
-        public Builder cancelable(boolean cancelable) {
-            mCancelable = cancelable;
+        public Builder touchOutsideCancelable(boolean cancelable) {
+            mOutsideCancelable = cancelable;
             return this;
         }
 
@@ -422,6 +436,11 @@ public class EasyDialog extends Dialog {
 
         public Builder setOnLeftListener(DialogInterface.OnLeftListener mOnLeftListener) {
             this.mOnLeftListener = mOnLeftListener;
+            return this;
+        }
+
+        public Builder backDismiss(boolean mBackDismiss) {
+            this.mBackDismiss = mBackDismiss;
             return this;
         }
     }

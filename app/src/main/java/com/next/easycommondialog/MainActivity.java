@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import com.next.dialoglib.DialogInterface;
 import com.next.dialoglib.EasyDialog;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,16 +19,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onShow(View view) {
-       new EasyDialog.Builder(MainActivity.this)
-               .content("退出后不会删除任何历史数据，下次登录依然可以使用本账号。")
-               .rightTextStr("退出")
-               .create()
-               .show();
+        new EasyDialog.Builder(MainActivity.this)
+                .content("退出后不会删除任何历史数据，下次登录依然可以使用本账号。")
+                .rightTextStr("退出")
+                .create()
+                .show();
     }
 
     public void onTest(View view) {
         new EasyDialog.Builder(MainActivity.this)
-               // .dialogWidth(270)
+                // .dialogWidth(270)
                 .dialogMinHeight(200)
 //                .dialogHeight(220)
                 .title("标题")
@@ -55,6 +57,22 @@ public class MainActivity extends AppCompatActivity {
                 .dialogRadius(20)
                 .dialogBgColor(Color.parseColor("#e6e6e6"))
                 .btnHeight(40)
+                .touchOutsideCancelable(true)
+                .backDismiss(false)
+                .setOnLeftListener(new DialogInterface.OnLeftListener() {
+                    @Override
+                    public boolean onLeftEvent(EasyDialog dialog) {
+                        Toast.makeText(MainActivity.this,"您点击了左边的按钮",Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                })
+                .setOnRightListener(new DialogInterface.OnRightListener() {
+                    @Override
+                    public boolean onRightEvent(EasyDialog dialog) {
+                        Toast.makeText(MainActivity.this,"您点击了右边的按钮",Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                })
                 .create()
                 .show();
     }

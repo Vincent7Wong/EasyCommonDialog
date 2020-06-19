@@ -1,6 +1,6 @@
 package com.next.dialoglib;
 
-interface DialogInterface {
+public interface DialogInterface {
 
     interface OnRightListener {
         boolean onRightEvent(EasyDialog dialog);
